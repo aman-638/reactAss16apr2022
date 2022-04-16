@@ -21,16 +21,27 @@ const Home = () => {
       <div className='navbar'>
       <Link to="/">Home</Link>
         <Link to="/add-city">Add City</Link>
-        <select name="" id="">
+        <select name="" id="" onChange={(e) => {
+                axios.get(`https://unit-5c2.herokuapp.com/users?country=${e.target.value}`).then((res) => {
+                    setList(res.data);
+                })
+        
+        }}>
             <option value="">filter by country</option>
-            <option value="">India</option>
-            <option value="">nepal</option>
-            <option value="">buthan</option>
-            <option value="">USA</option>
-            <option value="">UK</option>
+            <option value="India">India</option>
+            <option value="nepal">nepal</option>
+            <option value="buthan">buthan</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
         </select>
-        <button>sort by asc population</button>
-        <button>sort by desc population</button>
+        <button onClick={() => {
+           let sortasc = [...list].sort((a,b) => (a.population-b.population));
+           setList(sortasc)
+        }}>sort by asc population</button>
+        <button onClick={() => {
+           let sortasc = [...list].sort((a,b) => (b.population-a.population));
+           setList(sortasc)
+        }}>sort by desc population</button>
       </div>
 
       <table className='table table-bordered text-center'>
